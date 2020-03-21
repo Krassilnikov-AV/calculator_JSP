@@ -1,8 +1,4 @@
-<%-- 
-    Document   : index
-    Created on : Mar 18, 2020, 9:27:48 PM
-    Author     : Ксюшонок
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
