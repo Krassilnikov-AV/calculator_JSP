@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+//package avalon.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -11,10 +12,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
- 
 
-
-@WebServlet(urlPatterns = {"/CalcServlet"})
+/**
+ *
+ * @author JAVA
+ */
+@WebServlet(name = "servServlet", urlPatterns = {"/servServlet"})
 public class CalcServlet extends HttpServlet {
 
     /**
@@ -26,37 +29,88 @@ public class CalcServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-   
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //response.setContentType("text/html;charset=UTF-8");
+        /*try (PrintWriter out = response.getWriter()) {
+            // TODO output your page here. You may use following sample code. 
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet servServlet</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet servServlet at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }*/
+        
+        boolean isAddButton = request.getParameter("add_button") != null;
+        
+        String operand1;
+        String operand2;
+        Double operA, operB;
+        Double result;
+        
+        if (isAddButton){
+          operand1 = request.getParameter("add_param_1");
+          operand2 = request.getParameter("add_param_2");
+          try {
+            operA = Double.valueOf(operand1);
+            operB = Double.valueOf(operand2);
+            result = operA + operB;
+            request.setAttribute("result", result.toString());
+          }
+          catch (NumberFormatException ex){
+            request.setAttribute("result", "bad result: "+ ex.getMessage());        
+          }
+        //request.setAttribute("result", "адд резальт Ёпта");        
+        } else {
+         operand1 = request.getParameter("multi_param_1");
+         operand2 = request.getParameter("multi_param_2");
+          try {
+            operA = Double.valueOf(operand1);
+            operB = Double.valueOf(operand2);
+            result = operA * operB;
+            request.setAttribute("result", result.toString());
+          }
+          catch (NumberFormatException ex){
+            request.setAttribute("result", "bad result: "+ ex.getMessage());        
+          }
+        }
+        
+        request.getRequestDispatcher("index.jsp").forward(request, response);
 
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP <code>POST</code> method.
+     * Handles the HTTP <code>GET</code> method.
      *
-     * @param req
-     * @param resp
+     * @param request servlet request
+     * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {         
-    
-        req.setCharacterEncoding("UTF-8");
-        resp.setCharacterEncoding("UTF-8");
-        PrintWriter writer = resp.getWriter();
-        String b1 = req.getParameter("sum");
-        String b2 = req.getParameter("mult");
-        Double n1 = Double.parseDouble(req.getParameter("n1"));
-        Double n2 = Double.parseDouble(req.getParameter("n2"));
-        String ansver = "Bad number(s)";
-        if (b1 != null){
-            ansver = String.valueOf(n1 + n2);
-        }
-        if (b2 != null){
-            ansver = String.valueOf(n1 * n2);
-        }
-        req.setAttribute("msg", ansver);
-        req.getRequestDispatcher("index.jsp").forward(req,resp);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
 
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**
