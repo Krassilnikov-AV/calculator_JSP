@@ -56,10 +56,10 @@ public class CalcServlet extends HttpServlet {
           operand1 = request.getParameter("add_param_1");
           operand2 = request.getParameter("add_param_2");
           try {
-            operA = Double.valueOf(operand1);
-            operB = Double.valueOf(operand2);
-            result = operA + operB;
-            request.setAttribute("result", result.toString());
+            operA = Double.valueOf(operand1);  //
+            operB = Double.valueOf(operand2);   // 
+            result = operA + operB;              
+            request.setAttribute("result", result.toString());   //
           }
           catch (NumberFormatException ex){
             request.setAttribute("result", "bad result: "+ ex.getMessage());        
