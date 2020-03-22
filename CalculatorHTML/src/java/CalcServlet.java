@@ -32,29 +32,18 @@ public class CalcServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //response.setContentType("text/html;charset=UTF-8");
-        /*try (PrintWriter out = response.getWriter()) {
-            // TODO output your page here. You may use following sample code. 
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet servServlet</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet servServlet at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }*/
-        
-        boolean isAddButton = request.getParameter("add_button") != null;
+              
+        boolean butAdd = request.getParameter("add_button") != null;
+        boolean butMult = request.getParameter("mult_button") != null;
         
         String operand1;
         String operand2;
         Double operA, operB;
         Double result;
         
-        if (isAddButton){
-          operand1 = request.getParameter("add_param_1");
-          operand2 = request.getParameter("add_param_2");
+        if (butAdd){
+          operand1 = request.getParameter("addp1");
+          operand2 = request.getParameter("addp2");
           try {
             operA = Double.valueOf(operand1);  //
             operB = Double.valueOf(operand2);   // 
@@ -65,9 +54,10 @@ public class CalcServlet extends HttpServlet {
             request.setAttribute("result", "bad result: "+ ex.getMessage());        
           }
         //request.setAttribute("result", "адд резальт Ёпта");        
-        } else {
-         operand1 = request.getParameter("multi_param_1");
-         operand2 = request.getParameter("multi_param_2");
+        } 
+        if(butMult) {
+         operand1 = request.getParameter("multp1");
+         operand2 = request.getParameter("multp2");
           try {
             operA = Double.valueOf(operand1);
             operB = Double.valueOf(operand2);
