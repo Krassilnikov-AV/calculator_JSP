@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-//package avalon.web;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,11 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author JAVA
- */
-@WebServlet(name = "servServlet", urlPatterns = {"/servServlet"})
+
+@WebServlet(name = "CalcServl", urlPatterns = {"/CalcServl"})
 public class CalcServlet extends HttpServlet {
 
     /**
@@ -31,50 +22,45 @@ public class CalcServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //response.setContentType("text/html;charset=UTF-8");
-              
-        boolean butAdd = request.getParameter("add_button") != null;
-        boolean butMult = request.getParameter("mult_button") != null;
+               
+        boolean butAdd = request.getParameter("add_button") != null;   // кнопка в нажатом состоянии
+        boolean butMult = request.getParameter("multy_button") != null;  
         
-        String operand1;
-        String operand2;
-        Double operA, operB;
+        String field1;
+        String field2;
+        Double num1, num2;
         Double result;
         
         if (butAdd){
-          operand1 = request.getParameter("addp1");
-          operand2 = request.getParameter("addp2");
+          field1 = request.getParameter("addP1"); // получение первогого введенного параметра  
+          field2 = request.getParameter("addP2"); // получение второго введенного параметра 
           try {
-            operA = Double.valueOf(operand1);  //
-            operB = Double.valueOf(operand2);   // 
-            result = operA + operB;              
-            request.setAttribute("result", result.toString());   //
+            num1 = Double.valueOf(field1);  // преобразование первого числа в double
+            num2 = Double.valueOf(field2);   // преобразование второго числа в double 
+            result = num1 + num2;              // получение суммы введенных чисел
+            request.setAttribute("result", result.toString());   // передача данных их сервлета в jsp
           }
           catch (NumberFormatException ex){
             request.setAttribute("result", "bad result: "+ ex.getMessage());        
-          }
-        //request.setAttribute("result", "адд резальт Ёпта");        
+          }          
         } 
-        if(butMult) {
-         operand1 = request.getParameter("multp1");
-         operand2 = request.getParameter("multp2");
+        else if(butMult) {
+         field1 = request.getParameter("multp1");   
+         field2 = request.getParameter("multp2");
           try {
-            operA = Double.valueOf(operand1);
-            operB = Double.valueOf(operand2);
-            result = operA * operB;
+            num1 = Double.valueOf(field1);          // преобразование первого числа в double
+            num2 = Double.valueOf(field2);          // преобразование второго числа в double
+            result = num1 * num2;
             request.setAttribute("result", result.toString());
           }
           catch (NumberFormatException ex){
             request.setAttribute("result", "bad result: "+ ex.getMessage());        
           }
-        }
-        
+        }        
         request.getRequestDispatcher("index.jsp").forward(request, response);
-
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+     /**
      * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
@@ -86,7 +72,6 @@ public class CalcServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-
     }
 
     /**
